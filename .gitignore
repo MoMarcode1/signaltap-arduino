@@ -1,0 +1,24 @@
+# Build artifacts
+build/
+.pio/
+*.o
+*.elf
+*.bin
+*.hex
+
+# IDE
+.vscode/
+*.code-workspace
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arduino IDE
+*.ino.cpp
+
+# Secrets
+.env
+credentials.json
