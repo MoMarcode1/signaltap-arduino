@@ -621,7 +621,7 @@ void sim_update(void) {
         } else {
             baseConf = 55 + random(0, 25);
         }
-        demo->ai.insights[i].confidence = clampf(baseConf, 40, 99);
+        demo->ai.insights[i].confidence = (uint8_t)clampf((float)baseConf, 40.0f, 99.0f);
     }
 
     // OTA simulation

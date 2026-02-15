@@ -954,11 +954,13 @@
       render();
     }
     function ackAlarm(id) {
+      // Legacy: ack static profile alarms
       const demo = getDemo();
       const alarm = demo.alarms.find(a => a.id === id);
       if (alarm) alarm.acked = true;
       render();
     }
+    // Dynamic alarm ack is handled by ackDynAlarm() defined in renderAlarms section
 
     // ============================
     // RENDER: NAV
@@ -1318,6 +1320,21 @@
             </div>
           </div>
 
+          <!-- Simulation Engine Status -->
+          <div class="card card-lg" style="margin-bottom:20px">
+            <div class="section-title">Simulation Engine</div>
+            <div class="grid-2" style="margin-bottom:0">
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Scenario State</label>
+                <div style="font-weight:700;color:${(() => { const si = scenarioState[selectedDemo]; return si === 0 ? 'var(--green)' : si === 3 ? 'var(--red)' : si === 4 ? 'var(--blue)' : 'var(--yellow)'; })()}">${SCENARIO_STATES[scenarioState[selectedDemo]]}</div>
+              </div>
+              <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Timer / Active Alarms</label>
+                <div style="color:var(--text-secondary)">${scenarioTimers[selectedDemo]}s · ${dynamicAlarms[selectedDemo].filter(a=>a.active).length} alarms</div>
+              </div>
+            </div>
+          </div>
+
           <!-- Sensor Configuration -->
           <div class="card card-lg">
             <div class="section-title">Sensor Configuration — ${demo.name}</div>
@@ -1327,6 +1344,7 @@
                   <div class="sensor-config-name">${s.name}</div>
                   <div class="sensor-config-meta">${s.type} · ${s.min}–${s.max} ${s.unit}</div>
                 </div>
+                <div style="font-family:var(--font-mono);color:${s.color};font-weight:600">${s.value.toFixed(s.decimals)} ${s.unit}</div>
                 <div class="sensor-status ok"></div>
               </div>
             `).join('')}
